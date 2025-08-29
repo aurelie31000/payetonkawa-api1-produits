@@ -1,0 +1,31 @@
+# Fichiers générés par Maven
+target/
+*.jar
+*.war
+*.ear
+
+# Fichiers de compilation de Java
+*.class
+*.log
+
+# Fichiers de configuration de l'IDE  VSCode
+.idea/
+.vscode/
+*.iml
+
+# Fichiers de dépendances
+*.db
+
+# Docker
+.docker/
+
+# Fichiers de logs
+*.log
+
+# Fichiers de l'OS
+.DS_Store
+Thumbs.db
+
+# Configuration de Maven (fichiers de cache)
+.mvn/
+!/.mvn/wrapper/maven-wrapper.jar
