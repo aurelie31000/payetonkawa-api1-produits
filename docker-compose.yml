@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  product-api:
+    build: .   # Dockerfile doit être dans le même dossier que ce docker-compose.yml
+    image: payetonkawa-product-api
+    ports:
+      - "8080:8080"
+    depends_on:
+      - rabbitmq
+    environment:
+      - SPRING_RABBITMQ_HOST=rabbitmq
+  
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"
