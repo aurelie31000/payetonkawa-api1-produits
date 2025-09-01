@@ -2,17 +2,42 @@ version: '3.8'
 
 services:
   product-api:
-    build: .   # Dockerfile doit être dans le même dossier que ce docker-compose.yml
+    build: .
     image: payetonkawa-product-api
+    container_name: product-api
     ports:
       - "8080:8080"
     depends_on:
+      - postgresdb
       - rabbitmq
     environment:
-      - SPRING_RABBITMQ_HOST=rabbitmq
-  
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgresdb:5432/productdb
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_RABBITMQ_HOST: rabbitmq
+
+  postgresdb:
+    image: postgres:13
+    container_name: product-api-postgresdb
+    environment:
+      POSTGRES_DB: productdb
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5434:5432"
+    volumes:
+      - productdb_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
   rabbitmq:
     image: rabbitmq:3-management-alpine
+    container_name: product-api-rabbitmq
     ports:
-      - "5672:5672"
-      - "15672:15672"
+      - "5674:5672"
+      - "15674:15672"
+    restart: unless-stopped
+
+volumes:
+  productdb_data:
+
